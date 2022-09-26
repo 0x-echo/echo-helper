@@ -33,6 +33,7 @@
             label="Target URI"
             prop="uri">
             <el-input
+              readonly
               v-model="form.uri">
             </el-input>
           </el-form-item>
@@ -161,17 +162,16 @@
       
       <div
         class="app-footer">
-        <el-button
+        <!-- <el-button
           class="app-footer__action-button"
           size="large"
           @click="reset">
           Reset
-        </el-button>
+        </el-button> -->
         
         <el-button
           class="app-footer__action-button"
           size="large"
-          type="primary"
           @click="copyCode">
           Copy Code
         </el-button>
@@ -181,7 +181,7 @@
           size="large"
           type="primary"
           @click="insertCode">
-          Insert Code
+          Insert ECHO
         </el-button>
       </div>
     </template>
@@ -222,9 +222,25 @@ const form = reactive({
   desc: ''
 })
 
+let message = ref('')
+
 onMounted (() => {
   chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     form.uri = tabs[0].url
+    if (tabs[0].url.includes('https://mirror.xyz/write')) {
+      message.value = 'Please save draft first.'
+      return
+    }
+
+    if (tabs[0].url.includes('https://mirror.xyz/dashboard/edit/')) {
+      const splits = tabs[0].url.split('/')
+      const uri = `dapp/mirror/${splits[splits.length - 1]}`
+      form.uri = uri
+      message.value = ''
+      return
+    }
+
+    message.value = 'Only Mirror entry is supported.'
   })
   
   chrome.storage.local.get('form', function(result){
@@ -232,12 +248,17 @@ onMounted (() => {
     if (!_result.modules.length) {
       delete _result.modules
     }
+    if (_result.uri) {
+      delete _result.uri
+    }
     Object.assign(form, _result)
   })
 })
 
 watch(form, (value) => {
-  chrome.storage.local.set({ form: JSON.stringify(value) }, () => {
+  const pure = JSON.parse(JSON.stringify(value))
+  delete pure.uri
+  chrome.storage.local.set({ form: JSON.stringify(pure) }, () => {
   })
 })
 
@@ -350,11 +371,7 @@ const formGenURL = computed(() => {
 })
 
 const formCode = computed(() => {
-  if (form.uri_type === 'Mirror entry') {
-    return formGenURL.value + '&height=800&display=iframe'
-  } else {
-    return `<iframe src="${formGenURL.value}" frameborder="0"></iframe>`
-  }
+  return formGenURL.value + '&height=800&display=iframe'
 })
 
 const reset = () => {
@@ -373,10 +390,11 @@ const copyCode = async () => {
   }
 }
 
-const insertIframe = () => {
-  let div=document.createElement("div")
-  document.body.appendChild(div)
-  div.innerText="test123"
+const insertIframe = (text) => {
+  const element = document.querySelector('.ProseMirror')
+  const e = document.createElement('p')
+  e.innerHTML = text
+  element.appendChild(e)
 }
 
 const insertCode = async () => {
@@ -388,15 +406,19 @@ const insertCode = async () => {
         target: {
           tabId: tabId
         },  
-        func: insertIframe
+        func: insertIframe,
+        args: [formCode.value]        
       }, () => {
       })
+    })
+    ElMessage({
+      message: 'Done! Please save draft and preview the post to check if ECHO works right.',
+      type: 'success'
     })
   } catch (e) {
   }
 }
 
-let message = ref('Please save draft before ...')
 </script>
 
 <script>
