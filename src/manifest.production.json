@@ -18,6 +18,16 @@
         "48": "echo48.png",
         "128": "echo128.png"
     },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://opensea.io/assets/*"
+            ],
+            "js": [
+                "/opensea.js"
+            ]
+        }
+    ],
     "permissions": [
         "scripting",
         "storage",
