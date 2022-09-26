@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="250px" height="250px" viewBox="0 0 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>claim success</title>
+    <desc>Created with Sketch.</desc>
+    <g id="claim-success" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Oval" stroke="#16171C" cx="126" cy="102" r="14"></circle>
+        <path d="M155,168 C155,168 95,168 95,168 C81.4924096,95.5069806 91.4924096,45.5069806 125,18 C158.50759,45.5069806 168.50759,95.5069806 155,168 Z" id="Path" stroke="#16171C"></path>
+        <polyline id="Path" stroke="#16171C" points="90 126 71 144 65 196 95 168"></polyline>
+        <polyline id="Path" stroke="#16171C" transform="translate(170.000000, 161.000000) scale(-1, 1) translate(-170.000000, -161.000000) " points="180 126 161 144 155 196 185 168"></polyline>
+        <path d="M95,68 L155,68" id="Path" stroke="#16171C"></path>
+        <path d="M115.5,174 L115.5,221.041185 L115.5,174 Z M125.5,174 L125.5,231.418786 L125.5,174 Z M135.5,174 L135.5,219.880324 L135.5,174 Z M145.5,174 L145.5,208.341863 L145.5,174 Z M105.5,174 L105.5,209.501073 L105.5,174 Z" id="Shape" stroke="#4E75F6" stroke-linecap="square"></path>
+    </g>
+</svg>

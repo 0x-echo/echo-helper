@@ -1,6 +1,9 @@
 <template>
   <div
-    class="app-wrapper">
+    class="app-wrapper"
+    :class="{
+      'is-message': message
+    }">
     <div
       class="app-header">
       <img 
@@ -13,171 +16,188 @@
         ECHO Helper
       </h1>
     </div>
-    
-    <div
-      class="app-content">
-      <el-form
-        class="app-form"
-        ref="formRef"
-        label-position="top"
-        :model="form"
-        :rules="rules"
-        :show-message="false"
-        size="large">
-        <el-form-item
-          label="Target URI"
-          prop="uri">
-          <el-input
-            v-model="form.uri">
-          </el-input>
-        </el-form-item>
-        
-        <el-form-item
-          label="Modules"
-          prop="modules">
-          <el-checkbox-group 
-            class="app-form__widget-group"
-            v-model="form.modules">
-            <el-checkbox 
-              class="app-form__widget-checkbox"
-              v-for="item in moduleOptions"
-              :key="item.value"
-              border
-              :label="item.value">
-              <i
-                class="app-form__widget-checkbox-icon"
-                :class="item.icon">
-              </i>
-              
-              <div>
+      
+    <template
+      v-if="!message">
+      <div
+        class="app-content">
+        <el-form
+          class="app-form"
+          ref="formRef"
+          label-position="top"
+          :model="form"
+          :rules="rules"
+          :show-message="false"
+          size="large">
+          <el-form-item
+            label="Target URI"
+            prop="uri">
+            <el-input
+              v-model="form.uri">
+            </el-input>
+          </el-form-item>
+          
+          <el-form-item
+            label="Modules"
+            prop="modules">
+            <el-checkbox-group 
+              class="app-form__widget-group"
+              v-model="form.modules">
+              <el-checkbox 
+                class="app-form__widget-checkbox"
+                v-for="item in moduleOptions"
+                :key="item.value"
+                border
+                :label="item.value">
+                <i
+                  class="app-form__widget-checkbox-icon"
+                  :class="item.icon">
+                </i>
+                
+                <div>
+                  {{ item.label }}
+                </div>
+                
+                <div
+                  class="app-form__mode-placeholder"
+                  v-if="item.value === 'comment' || item.value === 'tip'">
+                  --
+                </div>
+                
+                <div
+                  v-if="item.value !== 'comment' && item.value !== 'tip'">
+                  <el-popover
+                    :ref="`${item.value}ModePopover`"
+                    :offset="0"
+                    placement="bottom"
+                    trigger="click"
+                    :width="120">
+                    <template 
+                      #reference>
+                      <div
+                        class="app-form__mode-select"
+                        @click.stop.prevent>
+                        <span>
+                          {{ form[item.value] }}
+                        </span>
+                        
+                        <i
+                          class="ri-arrow-drop-down-line">
+                        </i>
+                      </div>
+                    </template>
+                    
+                    <template 
+                      #default>
+                      <div
+                        class="app-form__mode-option"
+                        :class="{
+                          'active': form[item.value] === option.value
+                        }"
+                        v-for="option in modeOptions"
+                        :key="option.value"
+                        @click="selectMode(item.value, option.value)">
+                        {{ option.label }}
+                      </div>
+                    </template>
+                  </el-popover>
+                </div>
+              </el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+          
+          <el-form-item
+            label="Theme"
+            prop="theme">
+            <el-radio-group 
+              v-model="form.theme">
+              <el-radio
+                v-for="item in themeOptions"
+                :key="item.value"
+                :label="item.value">
                 {{ item.label }}
-              </div>
-              
-              <div
-                class="app-form__mode-placeholder"
-                v-if="item.value === 'comment' || item.value === 'tip'">
-                --
-              </div>
-              
-              <div
-                v-if="item.value !== 'comment' && item.value !== 'tip'">
-                <el-popover
-                  :ref="`${item.value}ModePopover`"
-                  :offset="0"
-                  placement="bottom"
-                  trigger="click"
-                  :width="120">
-                  <template 
-                    #reference>
-                    <div
-                      class="app-form__mode-select"
-                      @click.stop.prevent>
-                      <span>
-                        {{ form[item.value] }}
-                      </span>
-                      
-                      <i
-                        class="ri-arrow-drop-down-line">
-                      </i>
-                    </div>
-                  </template>
-                  
-                  <template 
-                    #default>
-                    <div
-                      class="app-form__mode-option"
-                      :class="{
-                        'active': form[item.value] === option.value
-                      }"
-                      v-for="option in modeOptions"
-                      :key="option.value"
-                      @click="selectMode(item.value, option.value)">
-                      {{ option.label }}
-                    </div>
-                  </template>
-                </el-popover>
-              </div>
-            </el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
+              </el-radio>
+            </el-radio-group>
+          </el-form-item>
+          
+          <el-form-item
+            label="Receiver"
+            prop="receiver">
+            <el-input
+              v-model="form.receiver"
+              placeholder="Enter your .bit or .eth">
+            </el-input>
+            
+            <div
+              class="app-form__tip">
+              To provide your avatar, display name and address for receiving tips
+            </div>
+          </el-form-item>
+
+          <el-form-item
+            label="description"
+            prop="desc">
+            <el-input
+              v-model="form.desc"
+              placeholder="description shown below name">
+            </el-input>
+          </el-form-item>
+        </el-form>
         
-        <el-form-item
-          label="Theme"
-          prop="theme">
-          <el-radio-group 
-            v-model="form.theme">
-            <el-radio
-              v-for="item in themeOptions"
-              :key="item.value"
-              :label="item.value">
-              {{ item.label }}
-            </el-radio>
-          </el-radio-group>
-        </el-form-item>
-        
-        <el-form-item
-          label="Receiver"
-          prop="receiver">
-          <el-input
-            v-model="form.receiver"
-            placeholder="Enter your .bit or .eth">
-          </el-input>
+        <div
+          class="app-code"
+          v-show="formCode">
+          <div
+            class="app-code__title">
+            Embed Code 
+          </div>
           
           <div
-            class="app-form__tip">
-            To provide your avatar, display name and address for receiving tips
+            class="app-code__block">
+            {{ formCode }}
           </div>
-        </el-form-item>
-
-        <el-form-item
-          label="description"
-          prop="desc">
-          <el-input
-            v-model="form.desc"
-            placeholder="description shown below name">
-          </el-input>
-        </el-form-item>
-      </el-form>
-      
-      <div
-        class="app-code"
-        v-show="formCode">
-        <div
-          class="app-code__title">
-          Embed Code 
-        </div>
-        
-        <div
-          class="app-code__block">
-          {{ formCode }}
         </div>
       </div>
-    </div>
+      
+      <div
+        class="app-footer">
+        <el-button
+          class="app-footer__action-button"
+          size="large"
+          @click="reset">
+          Reset
+        </el-button>
+        
+        <el-button
+          class="app-footer__action-button"
+          size="large"
+          type="primary"
+          @click="copyCode">
+          Copy Code
+        </el-button>
+        
+        <el-button
+          class="app-footer__action-button"
+          size="large"
+          type="primary"
+          @click="insertCode">
+          Insert Code
+        </el-button>
+      </div>
+    </template>
     
     <div
-      class="app-footer">
-      <el-button
-        class="app-footer__action-button"
-        size="large"
-        @click="reset">
-        Reset
-      </el-button>
+      class="app-message"
+      v-if="message">
+      <img 
+        class="app-message__icon"
+        src="@/assets/rocket.svg" 
+        :alt="message">
       
-      <el-button
-        class="app-footer__action-button"
-        size="large"
-        type="primary"
-        @click="copyCode">
-        Copy Code
-      </el-button>
-      
-      <el-button
-        class="app-footer__action-button"
-        size="large"
-        type="primary"
-        @click="insertCode">
-        Insert Code
-      </el-button>
+      <div
+        class="app-message__text">
+        {{ message }}
+      </div>
     </div>
   </div>
 </template>
@@ -375,6 +395,8 @@ const insertCode = async () => {
   } catch (e) {
   }
 }
+
+let message = ref('Please save draft before ...')
 </script>
 
 <script>
@@ -529,6 +551,12 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  
+  &.is-message {
+    .app-header {
+      padding-bottom: 15px;
+    }
+  }
 }
 
 .app-header {
@@ -688,6 +716,24 @@ body {
   
   &__action-button {
     width: 120px;
+  }
+}
+
+.app-message {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 100px;
+  
+  &__icon {
+    width: 200px;
+  }
+  
+  &__text {
+    margin-top: 10px;
+    font-size: 16px;
   }
 }
 </style>
