@@ -6,10 +6,10 @@ function insertAfter(newNode, referenceNode) {
 }
 
 const url = document.location.href
-const isSolana = url.includes('https://opensea.io/assets/solana/')
+const isSolana = url.includes('/assets/solana/')
 const reg = isSolana ? '/assets/:chain/:tokenId' : '/assets/:chain/:contract/:tokenId'
 const fn = match(reg, { decode: decodeURIComponent })
-const val = url.split('opensea.io')[1]
+const val = '/assets' + url.split('/assets')[1]
 const matched = fn(val)
 console.log('echo:', matched)
 const params = matched.params
