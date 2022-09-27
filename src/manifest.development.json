@@ -26,6 +26,9 @@
             ],
             "js": [
                 "/opensea.js"
+            ],
+            "css": [
+                "/opensea.css"
             ]
         }
     ],

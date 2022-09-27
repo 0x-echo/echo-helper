@@ -28,7 +28,8 @@ const iframeParams = {
   target_uri: `nft/${coinTypeMap[params.chain]}${ params.contract ? '/' + params.contract : '' }/${params.tokenId}`,
   modules: 'comment,like,dislike',
   'color-theme': 'light',
-  height
+  height,
+  'target_site': 'opensea_io'
 }
 
 const iframeUrl = `https://embed.0xecho.com.ipns.page?${qs.stringify(iframeParams)}`
@@ -42,7 +43,7 @@ while (!inserted) {
   if (!timelineDiv) {
     console.log('echo: target not exist yet')
   } else {
-    const blockCode = `<div class="Panel--panel">
+    const blockCode = `<div class="echo-panel">
     <iframe
       frameborder="0"
       style="width:100%;height:${height}px;"
