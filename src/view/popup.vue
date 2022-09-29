@@ -225,16 +225,9 @@ const form = reactive({
 let message = ref('')
 let url = ref('')
 
-const fn = match("/user/:id", { decode: decodeURIComponent });
-const handleUrl = () => {
-
-}
-
 onMounted (() => {
   chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-    url.value = tags[0].url
-    handleUrl()
-
+    url.value = tabs[0].url
     form.uri = tabs[0].url
 
     if (tabs[0].url.includes('https://mirror.xyz/write')) {
