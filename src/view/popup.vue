@@ -6,197 +6,198 @@
     }">
     <div
       class="app-header">
-      <img 
+      <a 
         class="app-header__logo"
-        src="@/assets/logo.svg" 
-        alt="ECHO Helper">
-      
-      <h1
-        class="app-header__title">
-        ECHO Helper
-      </h1>
+        href="https://0xecho.com"
+        target="_blank">
+        <img 
+          class="app-header__logo-image"
+          src="@/assets/logo.svg" 
+          alt="ECHO">
+        
+        <h1
+          class="app-header__title">
+          ECHO
+        </h1>
+      </a>
     </div>
-      
-    <template
-      v-if="!message">
+    
+    <div
+      class="app-content">
       <div
-        class="app-content">
-        <el-form
-          class="app-form"
-          ref="formRef"
-          label-position="top"
-          :model="form"
-          :rules="rules"
-          :show-message="false"
-          size="large">
-          <el-form-item
-            label="Target URI"
-            prop="uri">
-            <el-input
-              readonly
-              v-model="form.uri">
-            </el-input>
-          </el-form-item>
-          
-          <el-form-item
-            label="Modules"
-            prop="modules">
-            <el-checkbox-group 
-              class="app-form__widget-group"
-              v-model="form.modules">
-              <el-checkbox 
-                class="app-form__widget-checkbox"
-                v-for="item in moduleOptions"
-                :key="item.value"
-                border
-                :label="item.value">
-                <i
-                  class="app-form__widget-checkbox-icon"
-                  :class="item.icon">
-                </i>
-                
-                <div>
+        class="app-form">
+        <div
+          class="app-form__content">
+          <el-form
+            class="app-form__form"
+            ref="formRef"
+            label-position="top"
+            :model="form"
+            :rules="rules"
+            :show-message="false"
+            size="large">
+            <el-form-item
+              label="Target URI"
+              prop="uri">
+              <el-input
+                readonly
+                v-model="form.uri">
+              </el-input>
+            </el-form-item>
+            
+            <el-form-item
+              label="Modules"
+              prop="modules">
+              <el-checkbox-group 
+                class="app-form__widget-group"
+                v-model="form.modules">
+                <el-checkbox 
+                  class="app-form__widget-checkbox"
+                  v-for="item in moduleOptions"
+                  :key="item.value"
+                  border
+                  :label="item.value">
+                  <i
+                    class="app-form__widget-checkbox-icon"
+                    :class="item.icon">
+                  </i>
+                  
+                  <div>
+                    {{ item.label }}
+                  </div>
+                  
+                  <div
+                    class="app-form__mode-placeholder"
+                    v-if="item.value === 'comment' || item.value === 'tip'">
+                    --
+                  </div>
+                  
+                  <div
+                    v-if="item.value !== 'comment' && item.value !== 'tip'">
+                    <el-popover
+                      :ref="`${item.value}ModePopover`"
+                      :offset="0"
+                      placement="bottom"
+                      trigger="click"
+                      :width="120">
+                      <template 
+                        #reference>
+                        <div
+                          class="app-form__mode-select"
+                          @click.stop.prevent>
+                          <span>
+                            {{ form[item.value] }}
+                          </span>
+                          
+                          <i
+                            class="ri-arrow-drop-down-line">
+                          </i>
+                        </div>
+                      </template>
+                      
+                      <template 
+                        #default>
+                        <div
+                          class="app-form__mode-option"
+                          :class="{
+                            'active': form[item.value] === option.value
+                          }"
+                          v-for="option in modeOptions"
+                          :key="option.value"
+                          @click="selectMode(item.value, option.value)">
+                          {{ option.label }}
+                        </div>
+                      </template>
+                    </el-popover>
+                  </div>
+                </el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+            
+            <el-form-item
+              label="Theme"
+              prop="theme">
+              <el-radio-group 
+                v-model="form.theme">
+                <el-radio
+                  v-for="item in themeOptions"
+                  :key="item.value"
+                  :label="item.value">
                   {{ item.label }}
-                </div>
-                
-                <div
-                  class="app-form__mode-placeholder"
-                  v-if="item.value === 'comment' || item.value === 'tip'">
-                  --
-                </div>
-                
-                <div
-                  v-if="item.value !== 'comment' && item.value !== 'tip'">
-                  <el-popover
-                    :ref="`${item.value}ModePopover`"
-                    :offset="0"
-                    placement="bottom"
-                    trigger="click"
-                    :width="120">
-                    <template 
-                      #reference>
-                      <div
-                        class="app-form__mode-select"
-                        @click.stop.prevent>
-                        <span>
-                          {{ form[item.value] }}
-                        </span>
-                        
-                        <i
-                          class="ri-arrow-drop-down-line">
-                        </i>
-                      </div>
-                    </template>
-                    
-                    <template 
-                      #default>
-                      <div
-                        class="app-form__mode-option"
-                        :class="{
-                          'active': form[item.value] === option.value
-                        }"
-                        v-for="option in modeOptions"
-                        :key="option.value"
-                        @click="selectMode(item.value, option.value)">
-                        {{ option.label }}
-                      </div>
-                    </template>
-                  </el-popover>
-                </div>
-              </el-checkbox>
-            </el-checkbox-group>
-          </el-form-item>
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+            
+            <el-form-item
+              label="Receiver"
+              prop="receiver">
+              <el-input
+                v-model="form.receiver"
+                placeholder="Enter your .bit or .eth">
+              </el-input>
+              
+              <div
+                class="app-form__tip">
+                To provide your avatar, display name and address for receiving tips
+              </div>
+            </el-form-item>
+
+            <el-form-item
+              label="description"
+              prop="desc">
+              <el-input
+                v-model="form.desc"
+                placeholder="description shown below name">
+              </el-input>
+            </el-form-item>
+          </el-form>
           
-          <el-form-item
-            label="Theme"
-            prop="theme">
-            <el-radio-group 
-              v-model="form.theme">
-              <el-radio
-                v-for="item in themeOptions"
-                :key="item.value"
-                :label="item.value">
-                {{ item.label }}
-              </el-radio>
-            </el-radio-group>
-          </el-form-item>
-          
-          <el-form-item
-            label="Receiver"
-            prop="receiver">
-            <el-input
-              v-model="form.receiver"
-              placeholder="Enter your .bit or .eth">
-            </el-input>
+          <div
+            class="app-form__code"
+            v-show="formCode">
+            <div
+              class="app-form__code-title">
+              Embed Code 
+            </div>
             
             <div
-              class="app-form__tip">
-              To provide your avatar, display name and address for receiving tips
+              class="app-form__code-block">
+              {{ formCode }}
             </div>
-          </el-form-item>
-
-          <el-form-item
-            label="description"
-            prop="desc">
-            <el-input
-              v-model="form.desc"
-              placeholder="description shown below name">
-            </el-input>
-          </el-form-item>
-        </el-form>
+          </div>
+        </div>
         
         <div
-          class="app-code"
-          v-show="formCode">
-          <div
-            class="app-code__title">
-            Embed Code 
-          </div>
+          class="app-form__footer">
+          <el-button
+            class="app-form__action-button"
+            size="large"
+            @click="copyCode">
+            Copy Code
+          </el-button>
           
-          <div
-            class="app-code__block">
-            {{ formCode }}
-          </div>
+          <el-button
+            class="app-form__action-button"
+            size="large"
+            type="primary"
+            @click="insertCode">
+            Insert ECHO
+          </el-button>
         </div>
       </div>
       
       <div
-        class="app-footer">
-        <!-- <el-button
-          class="app-footer__action-button"
-          size="large"
-          @click="reset">
-          Reset
-        </el-button> -->
+        class="app-message"
+        v-if="message">
+        <img 
+          class="app-message__icon"
+          src="@/assets/rocket.svg" 
+          :alt="message">
         
-        <el-button
-          class="app-footer__action-button"
-          size="large"
-          @click="copyCode">
-          Copy Code
-        </el-button>
-        
-        <el-button
-          class="app-footer__action-button"
-          size="large"
-          type="primary"
-          @click="insertCode">
-          Insert ECHO
-        </el-button>
-      </div>
-    </template>
-    
-    <div
-      class="app-message"
-      v-if="message">
-      <img 
-        class="app-message__icon"
-        src="@/assets/rocket.svg" 
-        :alt="message">
-      
-      <div
-        class="app-message__text">
-        {{ message }}
+        <div
+          class="app-message__text">
+          {{ message }}
+        </div>
       </div>
     </div>
   </div>
@@ -576,20 +577,18 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
-  
-  &.is-message {
-    .app-header {
-      padding-bottom: 15px;
-    }
-  }
 }
 
 .app-header {
-  display: flex;
-  align-items: center;
-  padding: 15px 30px 30px;
+  padding: 15px 30px;
   
   &__logo {
+    display: flex;
+    align-items: center;
+    color: var(--text-color-primary);
+  }
+  
+  &__logo-image {
     width: 40px;
     margin-right: 10px;
   }
@@ -610,8 +609,24 @@ body {
 }
 
 .app-form {
-  .el-input {
-    max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  
+  &__content {
+    flex: 1;
+    padding: 15px 0;
+    overflow: scroll;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  
+  &__form {
+    .el-input {
+      max-width: 400px;
+    }
   }
   
   &__tip {
@@ -715,29 +730,29 @@ body {
       background: var(--menu-item-bg-color);
     }
   }
-}
-
-.app-code {
-  padding: 20px;
-  border-radius: var(--border-radius);
-  background: var(--bg-color);
-    
-  &__title {
+  
+  &__code {
+    padding: 20px;
+    border-radius: var(--border-radius);
+    background: var(--bg-color);
+  }
+  
+  &__code-title {
     margin-bottom: 20px;
     font-size: 16px;
     font-weight: 600;
     color: var(--text-color-secondary);
   }
   
-  &__block {
+  &__code-block {
     font-size: 14px;
     color: var(--text-color-secondary);
   }
-}
-
-.app-footer {
-  padding: 30px;
-  text-align: right;
+  
+  &__footer {
+    padding: 30px 0;
+    text-align: right;
+  }
   
   &__action-button {
     width: 120px;
