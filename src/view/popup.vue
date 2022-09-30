@@ -25,7 +25,8 @@
     <div
       class="app-content">
       <div
-        class="app-form">
+        class="app-form"
+        v-if="!message">
         <div
           class="app-form__content">
           <el-form
@@ -760,7 +761,7 @@ body {
 }
 
 .app-message {
-  flex: 1;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
