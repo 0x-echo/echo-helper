@@ -99,7 +99,7 @@ const data = reactive({
 })
 
 watch(url, async (newUrl) => {
-  console.log('new url change', newUrl)
+  console.log('url changed:', newUrl)
   await doMatch()
 })
 
@@ -156,14 +156,16 @@ const list = [{
   value: 'comment'
 }]
 
-
-const onStateChange = async () => {
-  url.value = document.location.href
-}
+let currentUrl = document.location.href
 
 onMounted(async () => {
   await doMatch()
-  window.addEventListener('popstate', onStateChange)
+  setInterval(() => {
+    if (location.href !== currentUrl) {
+      currentUrl = document.location.href
+      url.value = document.location.href
+    }
+  }, 300)
 })
 </script>
 
