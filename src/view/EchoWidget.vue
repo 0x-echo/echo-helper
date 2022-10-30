@@ -105,6 +105,38 @@ const data = {
 <style lang="scss">
 @import '../css/base.css';
 
+.plugin-toolbar,
+.plugin-drawer {
+  color: var(--text-color-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    outline: none;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+  }
+  
+  a {
+    text-decoration: none;
+    color: var(--color-primary);
+    transition: color .3s;
+  }
+
+  a:hover {
+    color: var(--color-primary-dark);
+  }
+  
+  li {
+    list-style: none;
+  }
+}
+
 .plugin-toolbar {
   position: fixed;
   bottom: 30px;
@@ -205,7 +237,7 @@ const data = {
     padding: 0 6px;
     border-radius: 10px;
     font-size: 12px;
-    line-height: 16px;
+    line-height: 17px;
     background: var(--color-primary);
     color: white;
   }
@@ -220,6 +252,7 @@ const data = {
   border-left: 1px solid var(--border-color);
   box-shadow: 0px 16px 48px 16px rgba(0, 0, 0, .08);
   background: white;
+  color: var(--text-color-primary);
   display: flex;
   flex-direction: column;
   z-index: 99999;
@@ -265,6 +298,8 @@ const data = {
   
   &__title {
     font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color-primary);
   }
   
   &__close {

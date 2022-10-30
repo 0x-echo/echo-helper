@@ -439,6 +439,38 @@ export default {
 <style lang="scss">
 @import '../css/base.css';
 
+// common 
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-primary);
+  transition: color .3s;
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+}
+
+li {
+  list-style: none;
+}
+
+body {
+  line-height: 1.5;
+  color: var(--text-color-primary);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
 // element plus
 .el-button {
   --el-button-hover-bg-color: white;
@@ -524,6 +556,7 @@ export default {
   
   &__title {
     font-size: 16px;
+    color: var(--text-color-primary);
   }
 }
 
