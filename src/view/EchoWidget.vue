@@ -212,12 +212,13 @@ const data = {
 }
 
 .plugin-drawer {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
-  width: 414px;
+  width: 415px;
   height: 100vh;
   border-left: 1px solid var(--border-color);
+  box-shadow: 0px 16px 48px 16px rgba(0, 0, 0, .08);
   background: white;
   display: flex;
   flex-direction: column;
