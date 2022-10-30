@@ -43,7 +43,7 @@
           target="_blank">
           <img 
             class="plugin-drawer__logo-image"
-            src="@/assets/logo.svg" 
+            :src="logo" 
             alt="ECHO">
           
           <h1
@@ -80,6 +80,9 @@ import { ref } from 'vue'
 
 let toolbarVisible = ref(true)
 let drawerVisible = ref(false)
+
+const logo = chrome.runtime.getURL('img/logo.svg')
+console.log('logo', logo)
 
 const list = [{
   icon: 'ri-thumb-up-line',

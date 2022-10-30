@@ -29,9 +29,30 @@
             ],
             "css": [
                 "/opensea.css"
-            ]
+            ],
+            "run_at": "document_end"  
+        },
+        {
+            "matches": [
+                "https://*/*"
+            ],
+            "js": [
+                "/toolbar.js"
+            ],
+            "css": [
+                "/remixicon/remixicon.css"
+            ],
+            "run_at": "document_end"  
         }
     ],
+    "web_accessible_resources": [
+        {
+          "resources": [ "/img/*", "/remixicon/*"],
+          "matches": [
+            "https://*/*"
+          ]
+        }
+      ],
     "permissions": [
         "scripting",
         "storage",
