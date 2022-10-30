@@ -50,7 +50,12 @@ module.exports = {
       filename: `[name].js`,
       chunkFilename: `[name].js`
     },
-    devtool: isDevMode ? 'inline-source-map' : false
+    devtool: isDevMode ? 'inline-source-map' : false,
+    resolve: {
+      alias: {
+        'vue$': 'vue/dist/vue.esm-bundler.js'
+      }
+    }
   },
   css: {
     extract: false // Make sure the css is the same

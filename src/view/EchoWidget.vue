@@ -68,7 +68,7 @@
           allowfullscreen="" 
           frameborder="0" 
           loading="lazy" 
-          src="https://embed.0xecho.com.ipns.page/?color-theme=light&amp;desc=&amp;has-h-padding=true&amp;has-v-padding=true&amp;modules=comment%2Clike%2Cdislike%2Ctip&amp;receiver=orangexyz.bit&amp;target_uri=https%3A%2F%2Forangexyz.mirror.xyz%2FNv9FZ9G4OweAJzNnaPFooScS5kGk2M46MSAwqiIyZYQ&amp;height=729&amp;display=iframe">
+          :src="iframeUri">
         </iframe>
       </div>
     </div>
@@ -76,13 +76,74 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
+import { matchOpensea } from '../entry/lib'
+import qs from 'query-string'
+import axios from 'axios'
+
+const API = 'https://node1.0xecho.com'
 
 let toolbarVisible = ref(true)
 let drawerVisible = ref(false)
 
 const logo = chrome.runtime.getURL('img/logo.svg')
-console.log('logo', logo)
+
+let targetUri = ref('')
+let iframeUri = ref('')
+let url = ref(document.location.href)
+
+const data = reactive({
+  like: 0,
+  dislike: 0,
+  comment: 0
+})
+
+watch(url, async (newUrl) => {
+  console.log('new url change', newUrl)
+  await doMatch()
+})
+
+const doMatch = async () => {
+  // whitelist: opensea
+  if (/^https:\/\/opensea\.io/.test(url.value)) {
+    const matched = matchOpensea(url.value)
+    targetUri.value = matched.targetUri
+    const iframeParams = {
+      target_uri: matched.targetUri,
+      modules: 'comment,like,dislike',
+      'color-theme': 'light',
+      height: 729,
+      'has-h-padding': 'true',
+      'has-v-padding': 'true',
+      'target_site': 'opensea_io'
+    }
+
+    iframeUri.value = `https://embed.0xecho.com.ipns.page?${qs.stringify(iframeParams)}`
+  }
+
+  try {
+    await doFetch()
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+const doFetch = async () => {
+  const rs = await axios.get(`${API}/api/v1/posts`, {
+    params: {
+      target_uri: targetUri.value
+    }
+  })
+  if (rs && rs.data && rs.data.data && rs.data.data.target_summary) {
+    Object.assign(data, {
+      like: rs.data.data.target_summary.like_counts,
+      dislike: rs.data.data.target_summary.dislike_counts,
+      comment: rs.data.data.target_summary.comment_counts
+    })
+  } else {
+    console.log(rs)
+  }
+}
 
 const list = [{
   icon: 'ri-thumb-up-line',
@@ -95,11 +156,15 @@ const list = [{
   value: 'comment'
 }]
 
-const data = {
-  like: 1,
-  dislike: 0,
-  comment: 532
+
+const onStateChange = async () => {
+  url.value = document.location.href
 }
+
+onMounted(async () => {
+  await doMatch()
+  window.addEventListener('popstate', onStateChange)
+})
 </script>
 
 <style lang="scss">

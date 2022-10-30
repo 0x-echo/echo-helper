@@ -1,11 +1,15 @@
 import { createApp } from 'vue'
 import EchoWidget from '../view/EchoWidget'
 
-
-// whitelist
 const url = document.location.href
+
+// whitelist: opensea
 if (/^https:\/\/opensea\.io/.test(url)) {
   const app = createApp(EchoWidget)
+
+  app.config.errorHandler = (err) => {
+    console.error('echo:', err)
+  }
 
   const div = document.createElement('div')
   div.id = 'chrome_echo-widget'
