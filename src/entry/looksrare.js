@@ -1,7 +1,7 @@
 import qs from 'query-string'
-import { matchOpensea } from './lib'
+import { matchLooksrare } from './lib'
 
-console.log('echo:opensea: injecting')
+console.log('echo:looksrare: injecting')
 
 let isRendering = false
 
@@ -14,13 +14,9 @@ function sleep(ms) {
 }
 
 // https://github.com/satoshilabs/slips/blob/master/slip-0044.md
-const coinTypeMap = {
-  'ethereum': '60', // https://opensea.io/assets/ethereum/0x60eb332bd4a0e2a9eeb3212cfdd6ef03ce4cb3b5/280980039013524092447328967487275980225373939388
-  'solana': '501', // https://opensea.io/assets/solana/2K4stcyiX9qVBdccYB93jLCdd166HY6nAh95LW5UJCor
-  'polygon': '966',  // https://opensea.io/assets/matic/0x2953399124f0cbb46d2cbacd8a89cf0599974963/42709913817426773948389448393602650129374964425258602512162183441386789928961
-  'arbitrum': '9001', // https://opensea.io/assets/arbitrum/0xb3963985de1b174462dde56418ce7d419caa4c12/3470
-  'klaytn': '8217' // https://opensea.io/assets/klaytn/0xa9f07b1260bb9eebcbaba66700b00fe08b61e1e6/224527
-}
+// const coinTypeMap = {
+//   'eth': '60' // https://opensea.io/assets/ethereum/0x60eb332bd4a0e2a9eeb3212cfdd6ef03ce4cb3b5/280980039013524092447328967487275980225373939388
+// }
 
 async function inject () {
   if (isRendering) {
@@ -29,8 +25,8 @@ async function inject () {
 
   const url = document.location.href
 
-  const matched = matchOpensea(url)
-  console.log('echo:opensea matched', matched)
+  const matched = matchLooksrare(url)
+  console.log('echo:looksrare matched', matched)
   const params = matched.params
 
   if (!params) {
@@ -44,7 +40,7 @@ async function inject () {
   
   const height = 600
   const iframeParams = {
-    target_uri: `nft/${coinTypeMap[params.chain]}${ params.contract ? '/' + params.contract : '' }/${params.tokenId}`,
+    target_uri: `nft/60${ params.contract ? '/' + params.contract.toLowerCase() : '' }/${params.tokenId}`,
     modules: 'comment,like,dislike',
     'color-theme': 'light',
     height,
@@ -56,7 +52,10 @@ async function inject () {
   
   let inserted = false
   while (!inserted) {
-    const timelineDiv = document.querySelector('.item--main .item--frame')
+    const _timelineDivs = document.querySelectorAll('.chakra-stack .chakra-accordion .chakra-accordion__item')
+    console.log(_timelineDivs)
+    const timelineDiv = _timelineDivs[_timelineDivs.length - 1]
+
     if (!timelineDiv) {
       console.log('echo: target not exist yet')
       await sleep(200)

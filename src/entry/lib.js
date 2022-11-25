@@ -19,6 +19,58 @@ export function matchOpensea (url) {
 
   return {
     params,
-    targetUri: `nft/${coinTypeMap[params.chain]}${ params.contract ? '/' + params.contract : '' }/${params.tokenId}`
+    targetUri: params ? `nft/${coinTypeMap[params.chain]}${ params.contract ? '/' + params.contract : '' }/${params.tokenId}` : null
   }
 }
+
+export function isMirror (url) {
+  const splits = url.split('/')
+  const id = splits[splits.length - 1]
+  if (id.length === 43) {
+    return true
+  }
+  return false
+}
+
+export function matchMirror (url) {
+  const splits = url.split('/')
+  const id = splits[splits.length - 1]
+  if (id.length === 43) {
+    return {
+      params: {
+        id
+      },
+      targetUri: `dapp/mirror/${id}`
+    }
+  }
+
+  return {
+
+  }
+}
+
+export function matchX2y2 (url) {
+  const reg = '/:chain/:contract/:tokenId'
+  const fn = match(reg, { decode: decodeURIComponent })
+  const matched = fn(url.replace('https://x2y2.io', ''))
+
+  return {
+    params: matched.params,
+    targetUri: `nft/60/${matched.params.contract}/${matched.params.tokenId}`
+  }
+}
+
+// https://looksrare.org/collections/0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85/7336079498597523296313895257641164104914542749044156962331103551815549273787?queryID=d45e7e84ca128893d1c593791dff16ce
+export function matchLooksrare (url) {
+  console.log('url', url, url.replace('https://looksrare.org', ''))
+  const reg = '/collections/:contract/:tokenId'
+  const fn = match(reg, { decode: decodeURIComponent })
+  const matched = fn(url.replace('https://looksrare.org', '').split('?')[0])
+  console.log('matched', matched)
+  return {
+    params: matched.params,
+    targetUri: `nft/60/${matched.params.contract}/${matched.params.tokenId}`
+  }
+}
+
+

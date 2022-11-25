@@ -77,7 +77,7 @@
 
 <script setup>
 import { ref, reactive, onMounted, watch } from 'vue'
-import { matchOpensea } from '../entry/lib'
+import { matchOpensea, matchMirror, isMirror } from '../entry/lib'
 import qs from 'query-string'
 import axios from 'axios'
 
@@ -107,18 +107,42 @@ const doMatch = async () => {
   // whitelist: opensea
   if (/^https:\/\/opensea\.io/.test(url.value)) {
     const matched = matchOpensea(url.value)
-    targetUri.value = matched.targetUri
-    const iframeParams = {
-      target_uri: matched.targetUri,
-      modules: 'comment,like,dislike',
-      'color-theme': 'light',
-      height: 729,
-      'has-h-padding': 'true',
-      'has-v-padding': 'true',
-      'target_site': 'opensea_io'
-    }
+    if (matched && matched.targetUri) {
+      targetUri.value = matched.targetUri
+      const iframeParams = {
+        target_uri: matched.targetUri,
+        modules: 'comment,like,dislike',
+        'color-theme': 'light',
+        height: 729,
+        'has-h-padding': 'true',
+        'has-v-padding': 'true',
+        'target_site': 'opensea_io'
+      }
 
-    iframeUri.value = `https://embed.0xecho.com.ipns.page?${qs.stringify(iframeParams)}`
+      iframeUri.value = `https://embed.0xecho.com.ipns.page?${qs.stringify(iframeParams)}`
+    }
+  }
+
+  console.log('is mirror', isMirror(url.value))
+  if (isMirror(url.value)) {
+    console.log('is mirror', url.value)
+    const matched = matchMirror(url.value)
+    console.log('matched mirror', matched)
+    if (matched && matched.targetUri) {
+      targetUri.value = matched.targetUri
+
+      const iframeParams = {
+        target_uri: matched.targetUri,
+        modules: 'comment,like,dislike',
+        'color-theme': 'light',
+        height: 729,
+        'has-h-padding': 'true',
+        'has-v-padding': 'true',
+        'target_site': 'mirror_xyz'
+      }
+
+      iframeUri.value = `https://embed.0xecho.com.ipns.page?${qs.stringify(iframeParams)}`
+    }
   }
 
   try {

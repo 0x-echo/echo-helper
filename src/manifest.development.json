@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "ECHO Helper",
     "description": "The easiest, fastest way to generate ECHO widget",
-    "version": "0.0.1",
+    "version": "0.0.4",
     "action": {
         "default_popup": "popup.html",
         "default_icon": {
@@ -21,8 +21,31 @@
     "content_scripts": [
         {
             "matches": [
-                "https://opensea.io/assets/*",
-                "https://opensea.io/*/assets/*"
+                "https://x2y2.io/*"
+            ],
+            "js": [
+                "/x2y2.js"
+            ],
+            "css": [
+                "/x2y2.css"
+            ],
+            "run_at": "document_end"  
+        },
+        {
+            "matches": [
+                "https://looksrare.org/*"
+            ],
+            "js": [
+                "/looksrare.js"
+            ],
+            "css": [
+                "/looksrare.css"
+            ],
+            "run_at": "document_end"  
+        },
+        {
+            "matches": [
+                "https://opensea.io/*"
             ],
             "js": [
                 "/opensea.js"
