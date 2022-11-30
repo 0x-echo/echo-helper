@@ -44,7 +44,7 @@ async function inject () {
     modules: 'comment,like,dislike',
     'color-theme': 'light',
     height,
-    'target_site': 'opensea_io',
+    'target_site': 'looksrare_org',
     from_uri: url
   }
   

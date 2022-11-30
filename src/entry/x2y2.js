@@ -48,7 +48,7 @@ async function inject () {
     modules: 'comment,like,dislike',
     'color-theme': 'light',
     height,
-    'target_site': 'opensea_io'
+    'target_site': 'x2y2_io'
   }
   
   const iframeUrl = `https://embed.0xecho.com.ipns.page?${qs.stringify(iframeParams)}`
