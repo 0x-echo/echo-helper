@@ -194,11 +194,11 @@ onMounted(async () => {
 </script>
 
 <style lang="scss">
-@import '../css/base.css';
+@import '../css/widget.css';
 
 .plugin-toolbar,
 .plugin-drawer {
-  color: var(--text-color-primary);
+  color: var(--echo-ex-text-color-primary);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
@@ -215,12 +215,12 @@ onMounted(async () => {
   
   a {
     text-decoration: none;
-    color: var(--color-primary);
+    color: var(--echo-ex-color-primary);
     transition: color .3s;
   }
 
   a:hover {
-    color: var(--color-primary-dark);
+    color: var(--echo-ex-color-primary-dark);
   }
   
   li {
@@ -246,8 +246,8 @@ onMounted(async () => {
     }
     
     .plugin-toolbar__item-icon {
-      border-color: var(--color-primary);
-      background: var(--color-primary);
+      border-color: var(--echo-ex-color-primary);
+      background: var(--echo-ex-color-primary);
       color: rgba(white, .9);
       box-shadow: 0 0 20px rgba(white, .1);
     }
@@ -255,7 +255,7 @@ onMounted(async () => {
     .plugin-toolbar__item-badge {
       font-weight: 500;
       background: white;
-      color: var(--color-primary);
+      color: var(--echo-ex-color-primary);
     }
   }
   
@@ -274,9 +274,9 @@ onMounted(async () => {
     height: 32px;
     margin-bottom: 16px;
     border-radius: 50%;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--echo-ex-border-color);
     font-size: 18px;
-    color: var(--text-color-muted);
+    color: var(--echo-ex-text-color-muted);
     background: white;
     box-shadow: 0 0 10px rgba(black, .1);
     transform: translateY(20%);
@@ -285,7 +285,7 @@ onMounted(async () => {
     transition: all .3s ease;
     
     &:hover {
-      color: var(--text-color-secondary);
+      color: var(--echo-ex-text-color-secondary);
     }
   }
   
@@ -312,9 +312,9 @@ onMounted(async () => {
     width: 40px;
     height: 40px;
     border-radius: 10px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--echo-ex-border-color);
     font-size: 16px;
-    color: var(--text-color-secondary);
+    color: var(--echo-ex-text-color-secondary);
     background: white;
     box-shadow: 0 0 10px rgba(black, .1);
   }
@@ -329,7 +329,7 @@ onMounted(async () => {
     border-radius: 10px;
     font-size: 12px;
     line-height: 17px;
-    background: var(--color-primary);
+    background: var(--echo-ex-color-primary);
     color: white;
   }
 }
@@ -340,10 +340,10 @@ onMounted(async () => {
   right: 0;
   width: 415px;
   height: 100vh;
-  border-left: 1px solid var(--border-color);
+  border-left: 1px solid var(--echo-ex-border-color);
   box-shadow: 0px 16px 48px 16px rgba(0, 0, 0, .08);
   background: white;
-  color: var(--text-color-primary);
+  color: var(--echo-ex-text-color-primary);
   display: flex;
   flex-direction: column;
   z-index: 99999;
@@ -378,7 +378,7 @@ onMounted(async () => {
     
     &,
     &:hover {
-      color: var(--text-color-primary);
+      color: var(--echo-ex-text-color-primary);
     }
   }
   
@@ -390,7 +390,7 @@ onMounted(async () => {
   &__title {
     font-size: 16px;
     font-weight: 600;
-    color: var(--text-color-primary);
+    color: var(--echo-ex-text-color-primary);
   }
   
   &__close {
@@ -401,12 +401,12 @@ onMounted(async () => {
     height: 32px;
     border-radius: 50%;
     font-size: 22px;
-    color: var(--text-color-primary);
+    color: var(--echo-ex-text-color-primary);
     cursor: pointer;
     transition: all .3s ease;
     
     &:hover {
-      background: var(--bg-color);
+      background: var(--echo-ex-bg-color);
     }
   }
   

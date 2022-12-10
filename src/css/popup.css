@@ -1,0 +1,40 @@
+:root {
+  --echo-ex-theme-bg-color: white;
+  --echo-ex-color-primary-rgb: 78,117,246;
+  --echo-ex-color-danger-rgb: 255,72,56;
+  --echo-ex-color-primary: #4E75F6;
+  --echo-ex-color-primary-light: #E9EFFE;
+  --echo-ex-color-primary-lighter: #F8FAFF;
+  --echo-ex-color-primary-dark: #3864F5;
+  --echo-ex-color-primary-disabled: #94B1FC;
+  --echo-ex-color-success: #83BF1C;
+  --echo-ex-color-warning: #FFAA02;
+  --echo-ex-color-danger: #FF4838;
+  --echo-ex-text-color-primary: #16171C;
+  --echo-ex-text-color-secondary: #4C545D;
+  --echo-ex-text-color-muted: #929AB2;
+  --echo-ex-bg-color: #F4F5FA;
+  --echo-ex-bg-color-dark: #16171C;
+  --echo-ex-border-color: #E6E8ED;
+  --echo-ex-border-radius: 12px;
+  --echo-ex-border-radius-small: 6px;
+  --echo-ex-border-radius-large: 20px;
+  --echo-ex-popover-box-shadow: 0 10px 10px rgba(0, 0, 0, .08);
+  --echo-ex-fill-color-blank: white;
+  --echo-ex-skeleton-to-color: var(--echo-ex-color-primary-lighter);
+  --echo-ex-menu-item-bg-color: var(--echo-ex-color-primary-lighter);
+  
+  /* element plus */
+  --el-color-primary: var(--echo-ex-color-primary);
+  --el-color-success: var(--echo-ex-color-success);
+  --el-color-warning: var(--echo-ex-color-warning);
+  --el-color-danger: var(--echo-ex-color-danger);
+  --el-color-info: var(--echo-ex-text-color-muted);
+  --el-text-color-regular: var(--echo-ex-text-color-secondary);
+  --el-border-color: var(--echo-ex-border-color);
+  --el-border-color-hover: var(--el-color-primary);
+  --el-border-radius-base: var(--echo-ex-border-radius);
+  --el-fill-color-blank: var(--echo-ex-fill-color-blank);
+  --el-popover-border-radius: var(--echo-ex-border-radius);
+  /* --el-font-family: var(--font-family); */
+}

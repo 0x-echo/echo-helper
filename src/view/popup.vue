@@ -130,11 +130,12 @@
             </el-form-item>
             
             <el-form-item
+              v-if="form.modules.filter(item => { return item === 'tip'}).length"
               label="Receiver"
               prop="receiver">
               <el-input
                 v-model="form.receiver"
-                placeholder="Enter your .bit or .eth">
+                placeholder="Enter your .bit, .eth or wallet address">
               </el-input>
               
               <div
@@ -144,11 +145,11 @@
             </el-form-item>
 
             <el-form-item
-              label="description"
+              label="Description"
               prop="desc">
               <el-input
                 v-model="form.desc"
-                placeholder="description shown below name">
+                placeholder="Description shown below name">
               </el-input>
             </el-form-item>
           </el-form>
@@ -319,9 +320,6 @@ const themeOptions = [{
 }, {
   label: 'Dark',
   value: 'dark'
-}, {
-  label: 'Auto',
-  value: 'auto'
 }]
 
 const instance = getCurrentInstance()
@@ -437,7 +435,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../css/base.css';
+@import '../css/popup.css';
 
 // common 
 * {
@@ -452,12 +450,12 @@ export default {
 
 a {
   text-decoration: none;
-  color: var(--color-primary);
+  color: var(--echo-ex-color-primary);
   transition: color .3s;
 }
 
 a:hover {
-  color: var(--color-primary-dark);
+  color: var(--echo-ex-color-primary-dark);
 }
 
 li {
@@ -466,7 +464,7 @@ li {
 
 body {
   line-height: 1.5;
-  color: var(--text-color-primary);
+  color: var(--echo-ex-text-color-primary);
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
 }
@@ -474,27 +472,27 @@ body {
 // element plus
 .el-button {
   --el-button-hover-bg-color: white;
-  --el-button-hover-border-color: var(--color-primary); 
+  --el-button-hover-border-color: var(--echo-ex-color-primary); 
   background-clip: padding-box;
-  font-family: var(--font-family);
+  // font-family: var(--font-family);
   transition: all .3s ease;
   
   &:focus:not(.el-button:hover) {
-    border-color: var(--border-color);
-    color: var(--text-color-secondary);
+    border-color: var(--echo-ex-border-color);
+    color: var(--echo-ex-text-color-secondary);
   }
   
   &--primary {
-    --el-button-hover-bg-color: var(--color-primary-dark);
-    --el-button-hover-border-color: var(--color-primary-dark);
-    --el-button-disabled-border-color: var(--color-primary-disabled);
-    --el-button-disabled-bg-color: var(--color-primary-disabled);
+    --el-button-hover-bg-color: var(--echo-ex-color-primary-dark);
+    --el-button-hover-border-color: var(--echo-ex-color-primary-dark);
+    --el-button-disabled-border-color: var(--echo-ex-color-primary-disabled);
+    --el-button-disabled-bg-color: var(--echo-ex-color-primary-disabled);
     font-weight: 600;
     
     &,
     &:focus:not(.el-button:hover) {
-      border-color: var(--color-primary);
-      background-color: var(--color-primary);
+      border-color: var(--echo-ex-color-primary);
+      background-color: var(--echo-ex-color-primary);
       color: white;
     }
   }
@@ -502,8 +500,8 @@ body {
 
 .el-input,
 .el-textarea {
-  --el-input-placeholder-color: var(--text-color-muted);
-  --el-input-border-color: var(--border-color);
+  --el-input-placeholder-color: var(--echo-ex-text-color-muted);
+  --el-input-border-color: var(--echo-ex-border-color);
 }
 
 .el-checkbox {
@@ -513,9 +511,9 @@ body {
 .el-message {
   min-width: 0;
   padding: 12px 20px 12px 15px;
-  border-color: var(--theme-bg-color);
-  background-color: var(--theme-bg-color);
-  box-shadow: var(--popover-box-shadow);
+  border-color: var(--echo-ex-theme-bg-color);
+  background-color: var(--echo-ex-theme-bg-color);
+  box-shadow: var(--echo-ex-popover-box-shadow);
 
   &__content {
     font-weight: 700;
@@ -526,6 +524,10 @@ body {
     margin-right: 8px;
     font-size: 20px;
   }
+}
+
+.el-popover {
+  --el-popover-border-radius: var(--echo-ex-border-radius);
 }
 
 // app
@@ -546,7 +548,7 @@ body {
   &__logo {
     display: flex;
     align-items: center;
-    color: var(--text-color-primary);
+    color: var(--echo-ex-text-color-primary);
   }
   
   &__logo-image {
@@ -556,7 +558,7 @@ body {
   
   &__title {
     font-size: 16px;
-    color: var(--text-color-primary);
+    color: var(--echo-ex-text-color-primary);
   }
 }
 
@@ -596,7 +598,7 @@ body {
     margin-top: 8px;
     font-size: 12px;
     line-height: 1.5;
-    color: var(--text-color-muted);
+    color: var(--echo-ex-text-color-muted);
   }
   
   &__widget-group {
@@ -608,11 +610,11 @@ body {
     transition: all .3s ease;
     
     &:hover:not(.is-checked) {
-      border-color: var(--color-primary);
+      border-color: var(--echo-ex-color-primary);
     }
     
     .is-error & {
-      border-color: var(--color-danger);
+      border-color: var(--echo-ex-color-danger);
     }
     
     &.el-checkbox {
@@ -621,10 +623,10 @@ body {
     }
     
     &.is-checked {
-      box-shadow: 0 0 4px rgba(var(--color-primary-rgb), .5);
+      box-shadow: 0 0 4px rgba(var(--echo-ex-color-primary-rgb), .5);
       
       .landing-form__widget-checkbox-icon {
-        color: var(--color-primary);
+        color: var(--echo-ex-color-primary);
       }
     }
     
@@ -640,13 +642,13 @@ body {
       align-items: center;
       padding: 0;
       font-size: 12px !important;
-      color: var(--text-color-secondary);
+      color: var(--echo-ex-text-color-secondary);
     }
     
     &-icon {
       margin-bottom: 10px;
       font-size: 20px;
-      color: var(--text-color-muted);
+      color: var(--echo-ex-text-color-muted);
     }
   }
   
@@ -654,7 +656,7 @@ body {
   &__mode-select {
     font-size: 12px;
     line-height: 30px;
-    color: var(--text-color-muted);
+    color: var(--echo-ex-text-color-muted);
     opacity: .9;
   }
   
@@ -679,36 +681,36 @@ body {
     border-radius: 6px;
     font-size: 12px;
     line-height: 30px;
-    color: var(--text-color-secondary);
+    color: var(--echo-ex-text-color-secondary);
     transition: all .3s ease;
     cursor: pointer;
     
     &:hover,
     &.active {
-      color: var(--color-primary);
+      color: var(--echo-ex-color-primary);
     }
     
     &.active {
-      background: var(--menu-item-bg-color);
+      background: var(--echo-ex-menu-item-bg-color);
     }
   }
   
   &__code {
     padding: 20px;
-    border-radius: var(--border-radius);
-    background: var(--bg-color);
+    border-radius: var(--echo-ex-border-radius);
+    background: var(--echo-ex-bg-color);
   }
   
   &__code-title {
     margin-bottom: 20px;
     font-size: 16px;
     font-weight: 600;
-    color: var(--text-color-secondary);
+    color: var(--echo-ex-text-color-secondary);
   }
   
   &__code-block {
     font-size: 14px;
-    color: var(--text-color-secondary);
+    color: var(--echo-ex-text-color-secondary);
   }
   
   &__footer {
