@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "ECHO Helper",
+    "name": "ECHO",
     "description": "The easiest, fastest way to generate ECHO widget",
     "version": "0.0.4",
     "action": {

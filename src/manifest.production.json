@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "ECHO",
-    "description": "The easiest, fastest way to generate ECHO widget",
-    "version": "0.0.4",
+    "description": "The easiest, fastest way to embed ECHO widget and comment on NFTs.",
+    "version": "0.0.5",
     "action": {
         "default_popup": "popup.html",
         "default_icon": {
