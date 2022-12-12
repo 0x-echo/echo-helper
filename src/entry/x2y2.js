@@ -26,13 +26,10 @@ async function inject () {
   if (isRendering) {
     return
   }
-
   const url = document.location.href
 
   const matched = matchX2y2(url)
-  console.log('echo:x2y2 matched', matched)
   const params = matched.params
-
   if (!params) {
     console.log('echo: not matched')
     return
@@ -56,8 +53,14 @@ async function inject () {
   let inserted = false
   while (!inserted) {
     const _timelineDiv = document.querySelector('[role=tablist]')
+
+    if (!_timelineDiv) {
+      console.log('echo: target not found')
+      return
+    }
+
     const timelineDiv = _timelineDiv.parentNode
-    console.log('timeline', timelineDiv)
+  
     if (!timelineDiv) {
       console.log('echo: target not exist yet')
       await sleep(200)
@@ -94,5 +97,7 @@ setInterval(() => {
   }
 }, 200)
 
-inject().then(() => {})
+inject().then(() => {}).catch(e => {
+  console.log(e)
+})
 

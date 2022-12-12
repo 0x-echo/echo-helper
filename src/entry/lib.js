@@ -54,6 +54,18 @@ export function matchX2y2 (url) {
   const fn = match(reg, { decode: decodeURIComponent })
   const matched = fn(url.replace('https://x2y2.io', ''))
 
+  if (url.includes('https://x2y2.io/collection')) {
+    return {
+
+    }
+  }
+
+  if (!matched.params || !matched.params.contract) {
+    return {
+
+    }
+  }
+
   return {
     params: matched.params,
     targetUri: `nft/60/${matched.params.contract}/${matched.params.tokenId}`
