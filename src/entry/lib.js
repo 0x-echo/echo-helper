@@ -52,7 +52,12 @@ export function matchMirror (url) {
 export function matchX2y2 (url) {
   const reg = '/:chain/:contract/:tokenId'
   const fn = match(reg, { decode: decodeURIComponent })
-  const matched = fn(url.replace('https://x2y2.io', ''))
+  const matched1 = fn(url.replace('https://x2y2.io', ''))
+
+  const reg2 = '/:lang/:chain/:contract/:tokenId'
+  const matched2 = match(reg2, { decode: decodeURIComponent })(url.replace('https://x2y2.io', ''))
+
+  const matched = matched1 || matched2
 
   if (url.includes('https://x2y2.io/collection')) {
     return {
@@ -61,6 +66,13 @@ export function matchX2y2 (url) {
   }
 
   if (!matched.params || !matched.params.contract) {
+    return {
+
+    }
+  }
+
+  // make sure contract address starts with 0x
+  if (!matched.params.contract.startsWith('0x')) {
     return {
 
     }
