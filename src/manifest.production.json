@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "ECHO",
     "description": "The easiest, fastest way to embed ECHO widget and comment on NFTs.",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "action": {
         "default_popup": "popup.html",
         "default_icon": {
