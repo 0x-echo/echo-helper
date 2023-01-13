@@ -9,6 +9,7 @@
     "build-watch": "vue-cli-service  --env.NODE_ENV=development build-watch --mode development"
   },
   "dependencies": {
+    "@0xecho/button": "0.0.17",
     "@soerenmartius/vue3-clipboard": "^0.1.2",
     "axios": "^1.1.3",
     "core-js": "^3.8.3",

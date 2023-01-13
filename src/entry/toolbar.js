@@ -46,7 +46,7 @@ let currentUrl = location.href
 
 setInterval(() => {
   if (location.href !== currentUrl) {
-    console.error('echo toolbar:', 'url change', currentUrl)
+    // console.error('echo toolbar:', 'url change', currentUrl)
     currentUrl = location.href
     setTimeout(async () => {
       try {

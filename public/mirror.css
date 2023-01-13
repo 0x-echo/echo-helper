@@ -1,0 +1,5 @@
+#echo-mirror-bar {
+  position: fixed;
+  bottom: 10px;
+  left: 100px;
+}

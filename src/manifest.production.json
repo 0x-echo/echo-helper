@@ -21,6 +21,17 @@
     "content_scripts": [
         {
             "matches": [
+                "https://chainfeeds.xyz/*"
+            ],
+            "js": [
+                "/chainfeeds.js"
+            ],
+            "css": [
+                "/chainfeeds.css"
+            ]
+        },
+        {
+            "matches": [
                 "https://x2y2.io/*"
             ],
             "js": [

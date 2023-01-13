@@ -21,6 +21,51 @@
     "content_scripts": [
         {
             "matches": [
+                "https://mirror.xyz/*"
+            ],
+            "js": [
+                "/mirror.dashboard.js"
+            ],
+            "css": [
+                "/mirror.css"
+            ]
+        },
+        {
+            "matches": [
+                "https://nftgo.io/*"
+            ],
+            "js": [
+                "/nftgo.js"
+            ],
+            "css": [
+                "/nftgo.css"
+            ],
+            "run_at": "document_end"  
+        },
+        {
+            "matches": [
+                "https://chainfeeds.xyz/*"
+            ],
+            "js": [
+                "/chainfeeds.js"
+            ],
+            "css": [
+                "/chainfeeds.css"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.orangedao.xyz/*"
+            ],
+            "js": [
+                "/orangedao.js"
+            ],
+            "css": [
+                "/orangedao.css"
+            ]
+        },
+        {
+            "matches": [
                 "https://x2y2.io/*"
             ],
             "js": [
