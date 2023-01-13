@@ -1,0 +1,95 @@
+.echo-like-box {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  max-width: 360px;
+  height: 60px;
+  margin: 0px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #FFAA02;
+  box-shadow: #FFAA02 10px 10px 0px -1px;
+  z-index: 0;
+  border-radius: 0px;
+  background: #fffff6;
+  width: 150px;
+  transform: translate(1310px, 320px);
+}
+
+.echo-like-box .echo-like {
+  display: flex;
+  justify-content: center;
+  height: 60px;
+  font-family: Inter, sans-serif;
+  color: #e75027; 
+}
+
+.echo-like-box .echo-like:hover {
+  color: #e75027; 
+}
+
+.echo-like-box .echo-like:hover .echo-like__icon {
+  fill: none; 
+}
+
+.echo-like-box .echo-like__icon {
+  fill: none; 
+  width: 24px;
+  height: 24px;
+  transition: all .3s ease;
+}
+
+.echo-like-box .echo-like__icon path {
+  stroke: #e75027; 
+}
+
+.echo-like-box .echo-like__icon path:first-of-type {
+  stroke: none;
+}
+
+.echo-like-box .echo-like__count {
+  font-size: 22px;
+  font-weight: 800;
+  transition: all .3s ease;
+}
+
+.echo-comment {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 450px;
+  height: auto;
+  margin: 0;
+  background: #fffff6;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #4e75f6;
+  box-shadow: #4e75f6 10px 10px 0px -1px;
+  z-index: 0;
+  border-radius: 0px;
+  height: 680px;
+  transform: translate(1930px, 45px);
+}
+
+.echo-comment__body {
+  padding: 10px;
+}
+
+.echo-comment__title {
+  padding: 20px 20px 30px;
+  margin: 0;
+  font-size: 30px;
+  font-family: Syne, sans-serif;
+  font-weight: 700;
+  color: black;
+}
+
+.echo-comment__right-space {
+  width: 30px;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  margin-right: -40px;
+  visibility: hidden;
+}
