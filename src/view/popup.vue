@@ -4,7 +4,7 @@
     :class="{
       'is-message': message
     }">
-    <!-- <div
+    <div
       class="app-header">
       <a 
         class="app-header__logo"
@@ -12,15 +12,23 @@
         target="_blank">
         <img 
           class="app-header__logo-image"
-          src="@/assets/logo.svg" 
+          :src="logo" 
           alt="ECHO">
         
         <h1
           class="app-header__title">
-          ECHO
+          Embed ECHO
         </h1>
       </a>
-    </div> -->
+      
+      <div
+        class="app-header__close"
+        @click="closeDialog">
+        <i
+          class="ri-close-line app-header__close-icon">
+        </i>
+      </div>
+    </div>
     
     <div
       class="app-content">
@@ -210,9 +218,10 @@
 import { computed, getCurrentInstance, onMounted, reactive, ref, watch } from 'vue-demi'
 import { ElButton, ElCheckbox, ElCheckboxGroup, ElForm, ElFormItem, ElInput, ElMessage, ElPopover, ElRadio, ElRadioGroup } from 'element-plus'
 import 'element-plus/dist/index.css'
-import 'remixicon/fonts/remixicon.css'
 import qs from 'query-string'
 import { toClipboard } from '@soerenmartius/vue3-clipboard'
+
+const logo = chrome.runtime.getURL('img/logo.svg')
 
 const formRef = ref(null)
 const form = reactive({
@@ -227,6 +236,10 @@ const form = reactive({
 
 let message = ref('')
 let url = ref('')
+
+const closeDialog = () => {
+  document.querySelector('#echo-helper__dialog').style.display = 'none'
+}
 
 onMounted (() => {
   // chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
@@ -402,6 +415,8 @@ const insertIframe = (text) => {
 }
 
 const insertCode = async () => {
+  await formRef.value.validate()
+  
   insertIframe(formCode.value)
   setTimeout(() => {
     document.querySelector('#echo-helper__dialog').style.display = 'none'
@@ -409,7 +424,6 @@ const insertCode = async () => {
   
   return
   try {
-    await formRef.value.validate()
     chrome.tabs.query({active: true, currentWindow: true}, tabs => {
       const tabId = tabs[0].id
       chrome.scripting.executeScript({ 
@@ -512,7 +526,7 @@ body {
 }
 
 .el-checkbox {
-  margin-right: 20px;
+  margin-right: 16px;
 }
 
 .el-message {
@@ -545,15 +559,18 @@ body {
 
 .app-wrapper {
   background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  // display: flex;
+  // flex-direction: column;
+  // height: 100%;
 }
 
 .app-header {
-  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  padding: 35px;
   
   &__logo {
+    flex: 1;
     display: flex;
     align-items: center;
     color: var(--echo-ex-text-color-primary);
@@ -561,19 +578,42 @@ body {
   
   &__logo-image {
     width: 40px;
+    height: 40px;
+    object-fit: contain;
     margin-right: 10px;
   }
   
   &__title {
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 500;
     color: var(--echo-ex-text-color-primary);
+  }
+  
+  &__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-left: 12px;
+    border-radius: 50%;
+    background: #f4f5fa;
+    font-size: 18px;
+    color: var(--echo-ex-text-color-secondary);
+    cursor: pointer;
+    transition: all .3s ease;
+    
+    &:hover {
+      background: var(--echo-ex-color-primary-light);
+      color: var(--echo-ex-color-primary);
+    }
   }
 }
 
 .app-content {
   flex: 1;
   overflow: scroll;
-  padding: 0 30px;
+  padding: 0 35px 50px;
   
   &::-webkit-scrollbar {
     display: none;
@@ -581,19 +621,18 @@ body {
 }
 
 .app-form {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  // display: flex;
+  // flex-direction: column;
+  // height: 100%;
   
-  &__content {
-    flex: 1;
-    padding: 15px 0;
-    overflow: scroll;
+  // &__content {
+  //   flex: 1;
+  //   overflow: scroll;
     
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
+  //   &::-webkit-scrollbar {
+  //     display: none;
+  //   }
+  // }
   
   &__form {
     .el-input {
@@ -722,7 +761,7 @@ body {
   }
   
   &__footer {
-    padding: 30px 0;
+    margin-top: 40px;
     text-align: right;
   }
   

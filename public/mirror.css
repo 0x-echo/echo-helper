@@ -1,0 +1,49 @@
+#echo-mirror-bar {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(calc(-50% - 170px));
+  display: flex;
+  align-items: center;
+  width: 200px;
+  height: 3.5rem;
+  padding: 0 1rem;
+  border-radius: 0.75rem;
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--theme-ui-colors-text, var(--colors-text));
+  background: #ececec;
+  z-index: 4;
+  cursor: pointer;
+}
+
+#echo-mirror-bar:hover {
+  background: #dfdfdf;
+}
+
+.echo-mirror-bar__logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  margin-right: 10px;
+}
+
+#echo-helper__dialog {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: var(--el-overlay-color-lighter);
+  overflow: auto;
+  z-index: 999;
+}
+
+#echo-helper__dialog .app-wrapper {
+  width: 90%;
+  max-width: 600px;
+  margin: 15vh auto 50px;
+  border-radius: 20px;
+}

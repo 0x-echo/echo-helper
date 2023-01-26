@@ -12,21 +12,22 @@ function  main() {
   }
   const $parent = $ul.parentNode
   console.log($parent, $ul)
+  
+  $parent.style.transform = "translateX(calc(-50% + 110px))"
 
   const $bar = document.createElement('div')
   $bar.id = 'echo-mirror-bar'
   const logo = chrome.runtime.getURL('img/logo.svg')
-  console.log('logo', logo)
   $bar.innerHTML = `<img
+  class="echo-mirror-bar__logo"
   src="${logo}"
-  style="width:40px;height:40px;"
-  alt="ECHO"> Embed ECHO`
+  alt="ECHO"> <span>Embed ECHO</span>`
   document.body.appendChild($bar)
 
 
   const $dialog = document.createElement('div')
   $dialog.id = 'echo-helper__dialog'
-  $dialog.style = `width:600px;height:600px;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);display:none;`
+  // $dialog.style = `width:600px;height:600px;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);display:none;`
   document.body.appendChild($dialog)
 
   const app = createApp(Form)
