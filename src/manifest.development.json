@@ -3,15 +3,6 @@
     "name": "ECHO",
     "description": "The easiest, fastest way to generate ECHO widget",
     "version": "0.0.4",
-    "action": {
-        "default_popup": "popup.html",
-        "default_icon": {
-            "16": "echo16.png",
-            "32": "echo32.png",
-            "48": "echo48.png",
-            "128": "echo128.png"
-        }
-    },
     "icons": {
         "16": "echo16.png",
         "32": "echo32.png",
@@ -19,6 +10,15 @@
         "128": "echo128.png"
     },
     "content_scripts": [
+        {
+            "matches": [
+                "https://mirror.xyz/*"
+            ],
+            "js": [
+                "/mirror.dashboard.js"
+            ],
+            "run_at": "document_end"  
+        },
         {
             "matches": [
                 "https://x2y2.io/*"

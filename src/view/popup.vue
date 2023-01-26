@@ -4,7 +4,7 @@
     :class="{
       'is-message': message
     }">
-    <div
+    <!-- <div
       class="app-header">
       <a 
         class="app-header__logo"
@@ -20,7 +20,7 @@
           ECHO
         </h1>
       </a>
-    </div>
+    </div> -->
     
     <div
       class="app-content">
@@ -37,14 +37,14 @@
             :rules="rules"
             :show-message="false"
             size="large">
-            <el-form-item
+            <!-- <el-form-item
               label="Target URI"
               prop="uri">
               <el-input
                 readonly
                 v-model="form.uri">
               </el-input>
-            </el-form-item>
+            </el-form-item> -->
             
             <el-form-item
               label="Modules"
@@ -135,7 +135,7 @@
               prop="receiver">
               <el-input
                 v-model="form.receiver"
-                placeholder="Enter your .bit, .eth or wallet address">
+                placeholder="Enter your .eth, .bit or wallet address">
               </el-input>
               
               <div
@@ -144,17 +144,17 @@
               </div>
             </el-form-item>
 
-            <el-form-item
+            <!-- <el-form-item
               label="Description"
               prop="desc">
               <el-input
                 v-model="form.desc"
                 placeholder="Description shown below name">
               </el-input>
-            </el-form-item>
+            </el-form-item> -->
           </el-form>
           
-          <div
+          <!-- <div
             class="app-form__code"
             v-show="formCode">
             <div
@@ -166,17 +166,17 @@
               class="app-form__code-block">
               {{ formCode }}
             </div>
-          </div>
+          </div> -->
         </div>
         
         <div
           class="app-form__footer">
-          <el-button
+          <!-- <el-button
             class="app-form__action-button"
             size="large"
             @click="copyCode">
             Copy Code
-          </el-button>
+          </el-button> -->
           
           <el-button
             class="app-form__action-button"
@@ -188,7 +188,7 @@
         </div>
       </div>
       
-      <div
+      <!-- <div
         class="app-message"
         v-if="message">
         <img 
@@ -200,7 +200,7 @@
           class="app-message__text">
           {{ message }}
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -229,17 +229,18 @@ let message = ref('')
 let url = ref('')
 
 onMounted (() => {
-  chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-    url.value = tabs[0].url
-    form.uri = tabs[0].url
+  // chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+    const _url = document.location.href
+    url.value = _url // tabs[0].url
+    form.uri = _url // tabs[0].url
 
-    if (tabs[0].url.includes('https://mirror.xyz/write')) {
+    if (_url.includes('https://mirror.xyz/write')) {
       message.value = 'Please save draft first.'
       return
     }
 
-    if (tabs[0].url.includes('https://mirror.xyz/dashboard/edit/')) {
-      const splits = tabs[0].url.split('/')
+    if (_url.includes('https://mirror.xyz/dashboard/edit/')) {
+      const splits = _url.split('/')
       const uri = `dapp/mirror/${splits[splits.length - 1]}`
       form.uri = uri
       message.value = ''
@@ -247,18 +248,18 @@ onMounted (() => {
     }
 
     message.value = 'Only Mirror entry is supported.'
-  })
+  // })
   
-  chrome.storage.local.get('form', function(result){
-    const _result = result.form ? JSON.parse(result.form) : {}
-    if (!_result.modules.length) {
-      delete _result.modules
-    }
-    if (_result.uri) {
-      delete _result.uri
-    }
-    Object.assign(form, _result)
-  })
+  // chrome.storage.local.get('form', function(result){
+  //   const _result = result.form ? JSON.parse(result.form) : {}
+  //   if (!_result.modules.length) {
+  //     delete _result.modules
+  //   }
+  //   if (_result.uri) {
+  //     delete _result.uri
+  //   }
+  //   Object.assign(form, _result)
+  // })
 })
 
 watch(form, (value) => {
@@ -401,6 +402,12 @@ const insertIframe = (text) => {
 }
 
 const insertCode = async () => {
+  insertIframe(formCode.value)
+  setTimeout(() => {
+    document.querySelector('#echo-helper__dialog').style.display = 'none'
+  })
+  
+  return
   try {
     await formRef.value.validate()
     chrome.tabs.query({active: true, currentWindow: true}, tabs => {
@@ -537,6 +544,7 @@ body {
 }
 
 .app-wrapper {
+  background-color: #fff;
   display: flex;
   flex-direction: column;
   height: 100%;
