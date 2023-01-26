@@ -215,7 +215,7 @@
 
 <script setup>
 /* eslint-disable */
-import { computed, getCurrentInstance, onMounted, reactive, ref, watch } from 'vue-demi'
+import { computed, getCurrentInstance, onMounted, reactive, ref, watch } from 'vue'
 import { ElButton, ElCheckbox, ElCheckboxGroup, ElForm, ElFormItem, ElInput, ElMessage, ElPopover, ElRadio, ElRadioGroup } from 'element-plus'
 import 'element-plus/dist/index.css'
 import qs from 'query-string'
@@ -241,38 +241,47 @@ const closeDialog = () => {
   document.querySelector('#echo-helper__dialog').style.display = 'none'
 }
 
+function getTargetUri () {
+  const _url = document.location.href
+  url.value = _url // tabs[0].url
+  form.uri = _url // tabs[0].url
+  if (_url.includes('https://mirror.xyz/dashboard/edit/')) {
+    const splits = _url.split('/')
+    const uri = `dapp/mirror/${splits[splits.length - 1]}`
+    form.uri = uri
+    return
+  }
+}
+
+setInterval(() => {
+  getTargetUri()
+}, 1000)
+
 onMounted (() => {
   // chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-    const _url = document.location.href
-    url.value = _url // tabs[0].url
-    form.uri = _url // tabs[0].url
+    
+    getTargetUri()
 
-    if (_url.includes('https://mirror.xyz/write')) {
-      message.value = 'Please save draft first.'
-      return
-    }
+    // if (_url.includes('https://mirror.xyz/write')) {
+    //   message.value = 'Please save draft first.'
+    //   return
+    // }
 
-    if (_url.includes('https://mirror.xyz/dashboard/edit/')) {
-      const splits = _url.split('/')
-      const uri = `dapp/mirror/${splits[splits.length - 1]}`
-      form.uri = uri
-      message.value = ''
-      return
-    }
+    
 
-    message.value = 'Only Mirror entry is supported.'
+    // message.value = 'Only Mirror entry is supported.'
   // })
-  
-  // chrome.storage.local.get('form', function(result){
-  //   const _result = result.form ? JSON.parse(result.form) : {}
-  //   if (!_result.modules.length) {
-  //     delete _result.modules
-  //   }
-  //   if (_result.uri) {
-  //     delete _result.uri
-  //   }
-  //   Object.assign(form, _result)
-  // })
+
+  chrome.storage.local.get('form', function(result) {
+    const _result = result.form ? JSON.parse(result.form) : {}
+    if (!_result.modules.length) {
+      delete _result.modules
+    }
+    if (_result.uri) {
+      delete _result.uri
+    }
+    Object.assign(form, _result)
+  })
 })
 
 watch(form, (value) => {
@@ -415,6 +424,10 @@ const insertIframe = (text) => {
 }
 
 const insertCode = async () => {
+  if (document.location.href.includes('https://mirror.xyz/write')) {
+    ElMessage.error('Please save the draft first.')
+    return
+  }
   await formRef.value.validate()
   
   insertIframe(formCode.value)

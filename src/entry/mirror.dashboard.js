@@ -1,17 +1,26 @@
 import { createApp } from 'vue'
 import Form from '../view/popup'
+import { isMirror } from './lib'
 
 function  main() {
-  const $ul = document.querySelector('[role=listbox]')
+  // match https://mirror.xyz/write
+  const url = document.location.href
+  if (!url.includes('https://mirror.xyz/write') && !isMirror(url)) {
+    console.log('echo: not in mirror writing page')
+    return
+  }
+
+  let $ul = document.querySelector('[role=listbox]')
   if (!$ul) {
     console.log('try again')
     setTimeout(() => {
       main()
-    }, 2000)
+    }, 500)
     return
   }
   const $parent = $ul.parentNode
-  console.log($parent, $ul)
+
+  const parentStyle = `translateX(calc(-50% + 110px))`
   
   $parent.style.transform = "translateX(calc(-50% + 110px))"
 
@@ -35,9 +44,20 @@ function  main() {
   app.mount($dialog)
 
   $bar.addEventListener('click', () => {
-    console.log('click bar')
     $dialog.style.display = 'block'
   })
+
+  setInterval(() => {
+    $ul = document.querySelector('[role=listbox]')
+    if ($ul) {
+      if ($ul.style.transform !== parentStyle) {
+        $ul.parentNode.style.transform = parentStyle
+      }
+      $bar.style.display = 'flex'
+    } else {
+      $bar.style.display = 'none'
+    }
+  }, 200)
 }
 
 main()

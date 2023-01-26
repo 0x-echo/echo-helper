@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "ECHO",
-    "description": "The easiest, fastest way to embed ECHO widget and comment on NFTs.",
-    "version": "0.0.8",
+    "description": "The easiest, fastest way to generate ECHO widget",
+    "version": "0.0.10",
     "icons": {
         "16": "echo16.png",
         "32": "echo32.png",
@@ -10,6 +10,18 @@
         "128": "echo128.png"
     },
     "content_scripts": [
+        {
+            "matches": [
+                "https://mirror.xyz/*"
+            ],
+            "js": [
+                "/mirror.dashboard.js"
+            ],
+            "css": [
+                "/mirror.css"
+            ],
+            "run_at": "document_end"  
+        },
         {
             "matches": [
                 "https://x2y2.io/*"
