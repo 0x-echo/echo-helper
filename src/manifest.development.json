@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "ECHO",
     "description": "The easiest, fastest way to generate ECHO widget",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "icons": {
         "16": "echo16.png",
         "32": "echo32.png",

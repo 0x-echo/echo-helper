@@ -24,6 +24,11 @@ function  main() {
   
   $parent.style.transform = "translateX(calc(-50% + 110px))"
 
+  if (document.querySelector('#echo-mirror-bar')) {
+    const $div = document.querySelector('#echo-mirror-bar')
+    $div.parentNode.removeChild($div)
+  }
+
   const $bar = document.createElement('div')
   $bar.id = 'echo-mirror-bar'
   const logo = chrome.runtime.getURL('img/logo.svg')
@@ -32,7 +37,11 @@ function  main() {
   src="${logo}"
   alt="ECHO"> <span>Embed ECHO</span>`
   document.body.appendChild($bar)
-
+  
+  if (document.querySelector('#echo-helper__dialog')) {
+    const $div = document.querySelector('#echo-helper__dialog')
+    $div.parentNode.removeChild($div)
+  }
 
   const $dialog = document.createElement('div')
   $dialog.id = 'echo-helper__dialog'
@@ -61,3 +70,18 @@ function  main() {
 }
 
 main()
+
+let currentUrl = location.href
+setInterval(() => {
+  if (location.href !== currentUrl) {
+    console.error('echo mirror:', 'url change', currentUrl)
+    currentUrl = location.href
+    setTimeout(async () => {
+      try {
+        main()
+      } catch (e) {
+        console.log(e)
+      }
+    }, 10)
+  }
+}, 200)
