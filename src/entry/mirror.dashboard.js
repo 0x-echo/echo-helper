@@ -20,9 +20,9 @@ function  main() {
   }
   const $parent = $ul.parentNode
 
-  const parentStyle = `translateX(calc(-50% + 110px))`
+  const parentStyle = `translateX(calc(-50% + 105px))`
   
-  $parent.style.transform = "translateX(calc(-50% + 110px))"
+  $parent.style.transform = "translateX(calc(-50% + 105px))"
 
   if (document.querySelector('#echo-mirror-bar')) {
     const $div = document.querySelector('#echo-mirror-bar')
@@ -31,11 +31,7 @@ function  main() {
 
   const $bar = document.createElement('div')
   $bar.id = 'echo-mirror-bar'
-  const logo = chrome.runtime.getURL('img/logo.svg')
-  $bar.innerHTML = `<img
-  class="echo-mirror-bar__logo"
-  src="${logo}"
-  alt="ECHO"> <span>Embed ECHO</span>`
+  $bar.innerHTML = `<span>Comments</span><span class="echo-mirror-bar__tip">&lt;/&gt;</span>`
   document.body.appendChild($bar)
   
   if (document.querySelector('#echo-helper__dialog')) {
@@ -65,6 +61,19 @@ function  main() {
       $bar.style.display = 'flex'
     } else {
       $bar.style.display = 'none'
+    }
+    
+    try {
+      const $content = document.querySelector('.ProseMirror')
+      if ($content) {
+        if ($content.innerHTML.includes('https://embed.0xecho.com.ipns.page')) {
+          $bar.classList.remove('has-badge')
+        } else {
+          $bar.classList.add('has-badge')
+        }
+      }
+    } catch (e) {
+      console.log(e)
     }
   }, 200)
 }
